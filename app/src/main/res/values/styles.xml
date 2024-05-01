@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ButtonNoBackground" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">#fff</item>
+        <item name="android:padding">8dp</item> <!-- Có thể điều chỉnh padding theo ý muốn -->
+
+
+
+    </style>
+
+</resources>
