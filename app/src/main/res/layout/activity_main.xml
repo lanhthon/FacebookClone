@@ -32,7 +32,7 @@
         android:ems="10"
         android:inputType="text"
         android:layout_marginTop="100dp"
-        android:text="Số di động hoặc email" />
+        android:hint="Nhập email"/>
 
     <EditText
         android:id="@+id/editText_Password"
@@ -62,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tạo tài khoản mới"
-        android:background="@drawable/button_background_register"
+        android:backgroundTint="#fff"
         android:textColor="#3b5998"
        />
 

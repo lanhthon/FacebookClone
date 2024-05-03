@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +13,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity {
+
+    private EditText editTextEmail;
+    private EditText editTextPassword;
+    private Button buttonLogin;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +34,26 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        mAuth = FirebaseAuth.getInstance();
+
+        editTextEmail = findViewById(R.id.editText_user);
+        editTextPassword = findViewById(R.id.editText_Password);
+        buttonLogin = findViewById(R.id.button_login);
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginUser();
+            }
+        });
+        // Check if user is already logged in
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            // Redirect to news activity
+            startActivity(new Intent(MainActivity.this, news.class));
+            finish(); // Optional: finish current activity to prevent going back to login screen
+        }
+
         Button registerButton = findViewById(R.id.button_Register);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,5 +62,38 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void loginUser() {
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        if (email.isEmpty()) {
+            editTextEmail.setError("Vui lòng nhập email");
+            editTextEmail.requestFocus();
+            return;
+        }
+
+        if (password.isEmpty()) {
+            editTextPassword.setError("Vui lòng nhập mật khẩu");
+            editTextPassword.requestFocus();
+            return;
+        }
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        Toast.makeText(MainActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                        // Navigate to another activity or perform any other action after successful login
+                        // Redirect to news activity
+                        startActivity(new Intent(MainActivity.this, news.class));
+                        finish(); // Optional: finish current activity to prevent going back to login screen
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(MainActivity.this, "Đăng nhập thất bại! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
