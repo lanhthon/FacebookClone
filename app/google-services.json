@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "985451229768",
-    "project_id": "fbclonenhom4",
-    "storage_bucket": "fbclonenhom4.appspot.com"
+    "project_number": "378463362573",
+    "project_id": "fbnhom4-2d36c",
+    "storage_bucket": "fbnhom4-2d36c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:985451229768:android:49f8cde25054e936c45e7d",
+        "mobilesdk_app_id": "1:378463362573:android:67738cc14beda0371e7f44",
         "android_client_info": {
           "package_name": "com.example.facebookclone"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyChDKJ801274-TTdwhMRnwYwYAmr2lb2o8"
+          "current_key": "AIzaSyDZDTY9nJUPJNBJolE5S0FHfH3iKoB5F3g"
         }
       ],
       "services": {

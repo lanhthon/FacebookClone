@@ -2,12 +2,14 @@ package com.example.facebookclone;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -15,6 +17,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +46,26 @@ public class MainActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editText_user);
         editTextPassword = findViewById(R.id.editText_Password);
         buttonLogin = findViewById(R.id.button_login);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(".info/connected");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean connected = snapshot.getValue(Boolean.class);
+                if (connected) {
+                    // Kết nối được thiết lập
+                    Log.d("TAG", "Kết nối thành công với Realtime Database");
+                } else {
+                    // Mất kết nối
+                    Log.d("TAG", "Mất kết nối với Realtime Database");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Xử lý khi có lỗi xảy ra
+                Log.w("TAG", "Lỗi khi lắng nghe kết nối với Realtime Database", error.toException());
+            }
+        });
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,5 +122,6 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Đăng nhập thất bại! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
     }
 }
