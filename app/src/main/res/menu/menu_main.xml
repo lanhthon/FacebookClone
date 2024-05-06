@@ -1,0 +1,34 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/icon1"
+        android:icon="@drawable/outline_assignment_ind_24"
+        android:title="Icon 1"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/icon2"
+        android:icon="@drawable/outline_assignment_ind_24"
+        android:title="Icon 2"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/icon3"
+        android:icon="@drawable/outline_assignment_ind_24"
+        android:title="Icon 3"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/icon4"
+        android:icon="@drawable/outline_assignment_ind_24"
+        android:title="Icon 4"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/icon5"
+        android:icon="@drawable/outline_assignment_ind_24"
+        android:title="Icon 5"
+        app:showAsAction="always" />
+
+</menu>

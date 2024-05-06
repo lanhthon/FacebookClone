@@ -1,92 +1,53 @@
 package com.example.facebookclone;
 
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class registerUser extends AppCompatActivity {
 
-    private EditText editTextHo;
-    private EditText editTextTen;
-    private EditText editTextNgaySinh;
-    private EditText editTextEmailOrPhone;
-    private EditText editTextPassword;
-    private Button buttonConfUser;
-
     private FirebaseAuth mAuth;
+    private EditText emailField, passwordField;
+    private Button registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
 
-        // Khởi tạo FirebaseAuth instance
+        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-      
-        editTextEmailOrPhone = findViewById(R.id.editText_register_user);
-        editTextPassword = findViewById(R.id.editText_register_password);
-        buttonConfUser = findViewById(R.id.button_conf_user);
+        // Bind views
+        emailField = findViewById(R.id.editText_register_user);
+        passwordField = findViewById(R.id.editText_register_password);
+        registerButton = findViewById(R.id.button_conf_user);
 
-        buttonConfUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerUser();
-            }
+        registerButton.setOnClickListener(view -> {
+            String email = emailField.getText().toString().trim();
+            String password = passwordField.getText().toString().trim();
+            createAccount(email, password);
         });
     }
 
-    private void registerUser() {
-        String ho = getIntent().getStringExtra("HO");
-        String ten = getIntent().getStringExtra("TEN");
-        String ngaySinh = getIntent().getStringExtra("NGAY_SINH");
-        String emailOrPhone = editTextEmailOrPhone.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
-
-        // Kiểm tra xem các trường có được điền đầy đủ không
-        if (TextUtils.isEmpty(ho)) {
-            Toast.makeText(getApplicationContext(), "Vui lòng nhập họ", Toast.LENGTH_SHORT).show();
+    private void createAccount(String email, String password) {
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Email and password cannot be empty.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (TextUtils.isEmpty(ten)) {
-            Toast.makeText(getApplicationContext(), "Vui lòng nhập tên", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (TextUtils.isEmpty(ngaySinh)) {
-            Toast.makeText(getApplicationContext(), "Vui lòng nhập ngày sinh", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (TextUtils.isEmpty(emailOrPhone)) {
-            Toast.makeText(getApplicationContext(), "Vui lòng nhập email hoặc số điện thoại", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), "Vui lòng nhập mật khẩu", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Đăng ký người dùng mới
-        mAuth.createUserWithEmailAndPassword(emailOrPhone, password)
+        // Create a new user
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Đăng ký thành công, làm bất cứ điều gì bạn muốn ở đây, chẳng hạn như chuyển hướng người dùng đến một màn hình khác
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(getApplicationContext(), "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+                        // Sign in success, update UI with the signed-in user's information
+                        Toast.makeText(registerUser.this, "Registration successful.", Toast.LENGTH_SHORT).show();
                     } else {
-                        // Đăng ký thất bại, hiển thị thông báo lỗi
-                        Toast.makeText(getApplicationContext(), "Đăng ký thất bại! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(registerUser.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }
