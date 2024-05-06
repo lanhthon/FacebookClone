@@ -13,6 +13,9 @@
         android:theme="@style/Theme.FacebookClone"
         tools:targetApi="31">
         <activity
+            android:name=".tableLayout"
+            android:exported="false" />
+        <activity
             android:name=".news"
             android:exported="false" />
         <activity

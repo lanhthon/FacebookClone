@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             // Redirect to news activity
-            startActivity(new Intent(MainActivity.this, news.class));
+            startActivity(new Intent(MainActivity.this, tableLayout.class));
             finish(); // Optional: finish current activity to prevent going back to login screen
         }
 
