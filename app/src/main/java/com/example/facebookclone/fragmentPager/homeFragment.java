@@ -14,8 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.facebookclone.Post;
 import com.example.facebookclone.PostAdapter;
 import com.example.facebookclone.R;
-import com.example.facebookclone.userPost; // Import ActivityUserPostHome
-
+import com.example.facebookclone.userPost;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,16 +25,16 @@ public class homeFragment extends Fragment {
     private PostAdapter postAdapter;
     private List<Post> postList;
     EditText editTextPost;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerViewPosts);
@@ -51,15 +50,20 @@ public class homeFragment extends Fragment {
         postAdapter = new PostAdapter(postList, getActivity());
         recyclerView.setAdapter(postAdapter);
 
+        // Lấy tham chiếu của EditText
         editTextPost = view.findViewById(R.id.editTextPost);
+
+        // Thiết lập OnClickListener cho EditText
         editTextPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), userPost.class);
+                // Khi EditText được nhấn, mở userPost activity
+                Intent intent = new Intent(getActivity(), userPost.class);
                 startActivity(intent);
             }
         });
 
         return view;
     }
+
 }
