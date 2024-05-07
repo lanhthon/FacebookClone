@@ -45,7 +45,11 @@ dependencies {
     // Add the dependency for the Realtime Database library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation("com.google.firebase:firebase-database")
+    //tablelayout
     implementation("com.google.android.material:material:1.1.0")
+    //img bo tròn
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
