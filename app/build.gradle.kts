@@ -39,16 +39,22 @@ android {
 
 dependencies {
 
+//tải ảnh bất đồng bộ và lưu cache
 
-    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+
 
     // Add the dependency for the Realtime Database library
     // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-database")
     //tablelayout
     implementation("com.google.android.material:material:1.1.0")
     //img bo tròn
     implementation("de.hdodenhof:circleimageview:3.1.0")
+    //img view URL
+    implementation ("com.squareup.picasso:picasso:2.71828")
 
     implementation(libs.appcompat)
     implementation(libs.material)

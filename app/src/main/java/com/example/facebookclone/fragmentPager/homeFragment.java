@@ -1,3 +1,4 @@
+// homeFragment.java
 package com.example.facebookclone.fragmentPager;
 
 import android.content.Intent;
@@ -15,8 +16,13 @@ import com.example.facebookclone.Post;
 import com.example.facebookclone.PostAdapter;
 import com.example.facebookclone.R;
 import com.example.facebookclone.userPost;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class homeFragment extends Fragment {
@@ -25,12 +31,9 @@ public class homeFragment extends Fragment {
     private PostAdapter postAdapter;
     private List<Post> postList;
     EditText editTextPost;
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-
-    }
+    // Truy cập vào Firebase Realtime Database
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,11 +45,6 @@ public class homeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         postList = new ArrayList<>();
-        // Thêm các bài viết vào danh sách
-        postList.add(new Post("User1", "Content 1", R.drawable.logo));
-        postList.add(new Post("User2", "Content 2", R.drawable.logo));
-        // ...
-
         postAdapter = new PostAdapter(postList, getActivity());
         recyclerView.setAdapter(postAdapter);
 
@@ -63,7 +61,34 @@ public class homeFragment extends Fragment {
             }
         });
 
+        // Lắng nghe sự thay đổi trong cơ sở dữ liệu Firebase
+        database.getReference("posts").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                postList.clear();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    // Lấy dữ liệu từ Firebase
+                    String postId = postSnapshot.child("postId").getValue(String.class);
+                    Integer likesCount = postSnapshot.child("likesCount").getValue(Integer.class);
+                    String userName = postSnapshot.child("userName").getValue(String.class);
+                    String content = postSnapshot.child("content").getValue(String.class);
+                    String imageUrl = postSnapshot.child("image_url").getValue(String.class);
+                    HashMap<String, Object> likesMap = (HashMap<String, Object>) postSnapshot.child("likes").getValue();
+                    // Tạo đối tượng Post từ dữ liệu Firebase
+
+                    Post post = new Post(postId, likesCount, userName, content, imageUrl, likesMap);
+
+                    postList.add(post);
+                }
+                postAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Xử lý lỗi nếu có
+            }
+        });
+
         return view;
     }
-
 }

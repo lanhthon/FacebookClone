@@ -5,5 +5,6 @@
     <color name="colorPrimary">#DDDADA</color>
     <color name="colorPrimaryDark">#4E3737</color>
     <color name="colorAccent">#FB1717</color>
+    <color name="colorfacebook">#3b5998</color>
 
 </resources>
