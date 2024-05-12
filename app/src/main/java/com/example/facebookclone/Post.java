@@ -1,5 +1,15 @@
 package com.example.facebookclone;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,18 +19,22 @@ public class Post {
     private String content;
     private String imageUrl;
     private int likesCount;
+    private String useridpost;
+    private String time;
     private HashMap<String, Object> likes;
 
     // No-argument constructor
 
 
-    public Post(String postId, int likesCount, String userName, String content, String imageUrl, HashMap<String, Object> likes) {
+    public Post(String postId, int likesCount, String userName, String content, String imageUrl, HashMap<String, Object> likes,String useridpost,String time) {
         this.postId = postId;
         this.userName = userName;
         this.content = content;
         this.imageUrl = imageUrl;
         this.likesCount = likesCount;
         this.likes = likes;
+        this.useridpost = useridpost;
+        this.time = time;
     }
 
     public String getPostId() {
@@ -31,8 +45,11 @@ public class Post {
         this.postId = postId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUseridpost() {
+        return useridpost;
+    }
+    public String gettime() {
+        return time;
     }
 
     public String getContent() {

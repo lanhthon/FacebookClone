@@ -31,6 +31,9 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class userPost extends AppCompatActivity {
 
@@ -147,6 +150,12 @@ public class userPost extends AppCompatActivity {
                     Log.e("UploadError", "Failed to upload image", e);
                 });
     }
+    private String saveCurrentDate() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        String currentDate = dateFormat.format(date);
+        return currentDate;
+    }
 
     private void storePostInfo(String imageUrl, String userId) {
         DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("posts").push();
@@ -156,7 +165,7 @@ public class userPost extends AppCompatActivity {
         postInfo.put("postId", postId); // Add postId to the postInfo
         postInfo.put("image_url", imageUrl);
         postInfo.put("userId", userId);
-        postInfo.put("time", ServerValue.TIMESTAMP);
+        postInfo.put("time", saveCurrentDate());
         postInfo.put("content", textValue);
         postInfo.put("likesCount", 0); // Initial likes count
 

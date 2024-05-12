@@ -73,10 +73,12 @@ public class homeFragment extends Fragment {
                     String userName = postSnapshot.child("userName").getValue(String.class);
                     String content = postSnapshot.child("content").getValue(String.class);
                     String imageUrl = postSnapshot.child("image_url").getValue(String.class);
+                    String useridpost = postSnapshot.child("userId").getValue(String.class);
+                    String time = postSnapshot.child("time").getValue(String.class);
                     HashMap<String, Object> likesMap = (HashMap<String, Object>) postSnapshot.child("likes").getValue();
                     // Tạo đối tượng Post từ dữ liệu Firebase
 
-                    Post post = new Post(postId, likesCount, userName, content, imageUrl, likesMap);
+                    Post post = new Post(postId, likesCount, userName, content, imageUrl, likesMap,useridpost,time);
 
                     postList.add(post);
                 }
