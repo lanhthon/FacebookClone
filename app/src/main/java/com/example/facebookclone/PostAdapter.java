@@ -41,7 +41,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     private List<Post> postList;
     private Context context;
     private List<Comment> commentList;
-    private ImageView imageViewAvatar;
+
 
 
 
@@ -88,7 +88,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         holder.textViewTime.setText(edittime(post.gettime()));
         holder.textViewContent.setText(post.getContent());
+String a;
         holder.textViewLikes.setText(String.format("%d likes", post.getLikesCount()));
+        countComments(postId, new CountCommentsCallback() {
+            @Override
+            public void onCountReceived(long count) {
+                // Ở đây bạn có thể sử dụng số lượng bình luận được trả về
+                holder.textViewComment.setText(String.format("%d comment",count));
+            }
+        });
+
+
+
 
         // Sử dụng Glide để tải ảnh từ URL và hiển thị trong ImageView
         Glide.with(context).load(post.getImageUrl()).into(holder.imageViewPost);
@@ -176,6 +187,25 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
 
 
+    public void countComments(String postId, final CountCommentsCallback callback) {
+        DatabaseReference commentsRef = FirebaseDatabase.getInstance().getReference().child("comments").child(postId);
+        commentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long count = dataSnapshot.getChildrenCount();
+                callback.onCountReceived(count);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle error
+            }
+        });
+    }
+
+    public interface CountCommentsCallback {
+        void onCountReceived(long count);
+    }
 
 
     private String edittime(String firebaseDateString) {
@@ -238,6 +268,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 List<Comment> commentList = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Comment comment = snapshot.getValue(Comment.class);
+
                     commentList.add(comment);
                 }
                 commentAdapter.setComments(commentList);
@@ -256,6 +287,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 String commentContent = editTextComment.getText().toString().trim();
                 if (!commentContent.isEmpty()) {
                     saveCommentToDatabase(postId, commentContent);
+                    editTextComment.setText("");
 
                 } else {
                     Toast.makeText(context, "Please enter a comment", Toast.LENGTH_SHORT).show();
@@ -309,13 +341,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewUserName, textViewContent, textViewLikes,textViewTime;
+        TextView textViewUserName, textViewContent, textViewLikes,textViewTime,textViewComment;
         ImageView imageViewPost ,imageViewuser;
         Button buttonLike, buttonComment, buttonShare;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewLikes = itemView.findViewById(R.id.textViewLikeCount);
+            textViewComment = itemView.findViewById(R.id.textViewCommentCount);
             textViewUserName = itemView.findViewById(R.id.textViewUserName);
             textViewContent = itemView.findViewById(R.id.textViewContent);
             textViewTime = itemView.findViewById(R.id.textViewUserDescription);
