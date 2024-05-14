@@ -13,9 +13,11 @@
         android:theme="@style/Theme.FacebookClone"
         tools:targetApi="31">
         <activity
+            android:name=".profile"
+            android:exported="false" />
+        <activity
             android:name=".searchUser"
             android:exported="false" />
-
         <activity
             android:name=".userPost"
             android:exported="false" />

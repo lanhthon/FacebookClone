@@ -1,5 +1,7 @@
 package com.example.facebookclone;
 
+import static java.security.AccessController.getContext;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
@@ -63,14 +65,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         // Lấy id của bài viết
         String postId = post.getPostId();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(post.getUseridpost());
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(post.getUserId());
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     String firstName = dataSnapshot.child("firstName").getValue(String.class);
                     String lastName = dataSnapshot.child("lastName").getValue(String.class);
-                    String avatarSrc = dataSnapshot.child("avatarSrc").getValue(String.class);
+                    String avatarSrc = dataSnapshot.child("avatarsrc").getValue(String.class);
                     holder.textViewUserName.setText(String.format("%s %s", firstName, lastName));
                     if (avatarSrc != null) {
                         Glide.with(context).load(avatarSrc).into(holder.imageViewuser);
@@ -86,7 +88,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         });
 
-        holder.textViewTime.setText(edittime(post.gettime()));
+        holder.textViewTime.setText(edittime(post.getTime()));
         holder.textViewContent.setText(post.getContent());
 String a;
         holder.textViewLikes.setText(String.format("%d likes", post.getLikesCount()));

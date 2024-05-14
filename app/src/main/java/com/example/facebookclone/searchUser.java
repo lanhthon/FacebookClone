@@ -12,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +28,7 @@ public class searchUser extends AppCompatActivity {
     private ListView friendListView;
     private UserAdapter userAdapter;
     private List<User> userList = new ArrayList<>();
+    String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,18 +75,31 @@ public class searchUser extends AppCompatActivity {
             String lastName = parts[1].trim();
             query = database.orderByChild("firstName").equalTo(firstName);
             query.addListenerForSingleValueEvent(new ValueEventListener() {
+
+
+
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     userList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        if (snapshot.child("lastName").getValue(String.class).equals(lastName)) {
-                            String userId = snapshot.getKey();
-                            User user = new User(userId, firstName, lastName);
+                        String userId = snapshot.getKey();
+                        // Kiểm tra xem userId có khác với userId của người dùng không
+                        if (userId.equals(currentUserID)) {
+                          continue;
+                        }else{
+                            String firstName = snapshot.child("firstName").getValue(String.class);
+                            String lastName = snapshot.child("lastName").getValue(String.class);
+                            String avatarSrc = snapshot.child("avatarsrc").getValue(String.class);
+                            String coversrc = snapshot.child("coversrc").getValue(String.class);
+                            String hometown = snapshot.child("hometown").getValue(String.class);
+                            String school = snapshot.child("school").getValue(String.class);
+                            User user = new User(userId, firstName, lastName, avatarSrc,coversrc, hometown, school);
                             userList.add(user);
                         }
                     }
                     userAdapter.notifyDataSetChanged();
                 }
+
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
@@ -107,13 +122,23 @@ public class searchUser extends AppCompatActivity {
                 userList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String userId = snapshot.getKey();
-                    String firstName = snapshot.child("firstName").getValue(String.class);
-                    String lastName = snapshot.child("lastName").getValue(String.class);
-                    if (firstName.equals(name) || lastName.equals(name)) {
-                        User user = new User(userId, firstName, lastName);
-                        userList.add(user);
-                        added = true;
+                    if (userId.equals(currentUserID)) {
+                        continue;
+                    }else {
+                        String firstName = snapshot.child("firstName").getValue(String.class);
+                        String lastName = snapshot.child("lastName").getValue(String.class);
+                        String avatarSrc = snapshot.child("avatarsrc").getValue(String.class);
+                        String coversrc = snapshot.child("coversrc").getValue(String.class);
+                        String hometown = snapshot.child("hometown").getValue(String.class);
+                        String shool = snapshot.child("shool").getValue(String.class);
+
+                        if (firstName.equals(name) || lastName.equals(name)) {
+                            User user = new User(userId, firstName, lastName, avatarSrc,coversrc, hometown, shool);
+                            userList.add(user);
+                            added = true;
+                        }
                     }
+
                 }
                 if (!added) { // Nếu không tìm thấy theo firstName, tìm theo lastName
                     findLastName(name);
@@ -137,9 +162,18 @@ public class searchUser extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String userId = snapshot.getKey();
-                    String firstName = snapshot.child("firstName").getValue(String.class);
-                    User user = new User(userId, firstName, lastName);
-                    userList.add(user);
+                    if (userId.equals(currentUserID)) {
+                        continue;
+                    }else{
+                        String firstName = snapshot.child("firstName").getValue(String.class);
+                        String avatarSrc = snapshot.child("avatarsrc").getValue(String.class);
+                        String hometown = snapshot.child("hometown").getValue(String.class);
+                        String coversrc = snapshot.child("coversrc").getValue(String.class);
+                        String shool = snapshot.child("shool").getValue(String.class);
+                        User user = new User(userId, firstName, lastName, avatarSrc,coversrc, hometown, shool);
+                        userList.add(user);
+                    }
+
                 }
                 userAdapter.notifyDataSetChanged();
             }

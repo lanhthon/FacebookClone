@@ -28,13 +28,13 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_search"
+            android:src="@drawable/ic_book"
             android:background="?attr/selectableItemBackground" />
 
     </LinearLayout>
 
     <ListView
-        android:id="@+id/friendListView"
+        android:id="@+id/friendRequestsListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

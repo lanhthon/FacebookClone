@@ -74,6 +74,11 @@ public class registerUser extends AppCompatActivity {
         userMap.put("firstName", firstName);
         userMap.put("lastName", lastName);
         userMap.put("birthDate", birthDate);
+        userMap.put("avatarsrc", "https://firebasestorage.googleapis.com/v0/b/fbnhom4-2d36c.appspot.com/o/users%2Fimg_avatar.png?alt=media&token=08464413-f374-4b96-ac92-6ff868808c22");
+        userMap.put("coversrc", "https://firebasestorage.googleapis.com/v0/b/fbnhom4-2d36c.appspot.com/o/users%2Fcover.jpg?alt=media&token=850484b8-901d-4dd9-b629-ae76a7bbffbb");
+        userMap.put("hometown", "");
+        userMap.put("shool", "");
+
 
         // Write a message to the database
         mDatabase.child("users").child(userId).setValue(userMap)

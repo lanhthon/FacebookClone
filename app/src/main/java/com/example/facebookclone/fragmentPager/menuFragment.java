@@ -35,7 +35,7 @@ public class menuFragment extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Đăng xuất người dùng hiện tại
+                // Đăng xuất người dùn hiện tại
                 mAuth.signOut();
                 // Redirect hoặc thực hiện hành động phù hợp sau khi đăng xuất
                 // Ví dụ: chuyển về màn hình đăng nhập

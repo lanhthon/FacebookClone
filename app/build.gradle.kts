@@ -55,6 +55,10 @@ dependencies {
     implementation("de.hdodenhof:circleimageview:3.1.0")
     //img view URL
     implementation ("com.squareup.picasso:picasso:2.71828")
+    //cardview
+     dependencies {
+      implementation ("androidx.cardview:cardview:1.0.0")
+    }
 
     implementation(libs.appcompat)
     implementation(libs.material)
