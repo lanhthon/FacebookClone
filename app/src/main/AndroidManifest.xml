@@ -6,42 +6,12 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/logo"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logo"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FacebookClone"
         tools:targetApi="31">
-        <activity
-            android:name=".editprofile"
-            android:exported="false" />
-        <activity
-            android:name=".profile"
-            android:exported="false" />
-        <activity
-            android:name=".searchUser"
-            android:exported="false" />
-        <activity
-            android:name=".userPost"
-            android:exported="false" />
-        <activity
-            android:name=".item_post_home"
-            android:exported="false" />
-        <activity
-            android:name=".tableLayout"
-            android:exported="false" />
-        <activity
-            android:name=".news"
-            android:exported="false" />
-        <activity
-            android:name=".registerUser"
-            android:exported="false" />
-        <activity
-            android:name=".registerDate"
-            android:exported="false" />
-        <activity
-            android:name=".registerName"
-            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
