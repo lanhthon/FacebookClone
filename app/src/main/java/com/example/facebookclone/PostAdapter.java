@@ -90,7 +90,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         holder.textViewTime.setText(edittime(post.getTime()));
         holder.textViewContent.setText(post.getContent());
-String a;
+
         holder.textViewLikes.setText(String.format("%d likes", post.getLikesCount()));
         countComments(postId, new CountCommentsCallback() {
             @Override
@@ -105,6 +105,7 @@ String a;
 
         // Sử dụng Glide để tải ảnh từ URL và hiển thị trong ImageView
         Glide.with(context).load(post.getImageUrl()).into(holder.imageViewPost);
+
         if (currentUser != null && post.getLikes().containsKey(currentUser.getUid())) {
             // Nếu người dùng đã thích, đổi icon thành biểu tượng trái tim
             holder.buttonLike.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_heart, 0, 0, 0);

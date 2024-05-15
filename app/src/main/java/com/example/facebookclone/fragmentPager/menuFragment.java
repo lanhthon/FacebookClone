@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.example.facebookclone.MainActivity;
 import com.example.facebookclone.R;
+import com.example.facebookclone.profile;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class menuFragment extends Fragment {
@@ -36,12 +37,12 @@ public class menuFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Đăng xuất người dùn hiện tại
-                mAuth.signOut();
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 // Redirect hoặc thực hiện hành động phù hợp sau khi đăng xuất
                 // Ví dụ: chuyển về màn hình đăng nhập
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
-
+                Intent intent = new Intent(getContext(), profile.class);
+                intent.putExtra("userId", userId);
+                getContext().startActivity(intent);
             }
         });
 

@@ -1,5 +1,6 @@
 package com.example.facebookclone;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -76,17 +77,19 @@ public class registerUser extends AppCompatActivity {
         userMap.put("birthDate", birthDate);
         userMap.put("avatarsrc", "https://firebasestorage.googleapis.com/v0/b/fbnhom4-2d36c.appspot.com/o/users%2Fimg_avatar.png?alt=media&token=08464413-f374-4b96-ac92-6ff868808c22");
         userMap.put("coversrc", "https://firebasestorage.googleapis.com/v0/b/fbnhom4-2d36c.appspot.com/o/users%2Fcover.jpg?alt=media&token=850484b8-901d-4dd9-b629-ae76a7bbffbb");
-        userMap.put("hometown", "");
-        userMap.put("shool", "");
+        userMap.put("hometown", "Kien giang");
+        userMap.put("shool", "Cao dang kien giang");
 
 
         // Write a message to the database
         mDatabase.child("users").child(userId).setValue(userMap)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Toast.makeText(registerUser.this, "User data saved successfully.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(registerUser.this, "Đăng ký thành công!.", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(this, tableLayout.class));
+                        finish(); // Optional: finish current activity to prevent going back to login screen
                     } else {
-                        Toast.makeText(registerUser.this, "Failed to save user data.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(registerUser.this, "Failed đăng ký.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

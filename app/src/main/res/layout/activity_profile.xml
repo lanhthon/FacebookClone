@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
     tools:context=".profile">
 
     <RelativeLayout
@@ -21,7 +22,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginTop="150dp"
-            android:layout_marginStart="20dp"
+
             android:src="@drawable/img_avatar" />
 
         <TextView
@@ -42,7 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/usernameTextView"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
             android:orientation="horizontal">
             <Button
                 android:id="@+id/editProfileButton"
@@ -99,7 +99,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/buttonprofile"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
@@ -129,7 +128,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/infoprofile"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
             android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
@@ -142,7 +140,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/friendls"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="match_parent"
             android:layout_below="@id/infoprofile"
             android:layout_marginTop="20dp" />
         </LinearLayout>
@@ -152,7 +150,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/lvfrend"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
             android:orientation="vertical">
         <TextView
             android:id="@+id/posttextview"

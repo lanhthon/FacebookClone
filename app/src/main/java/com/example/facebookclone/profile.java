@@ -1,10 +1,13 @@
 // profile.java
 package com.example.facebookclone;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +27,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class profile extends AppCompatActivity {
@@ -38,6 +42,7 @@ public class profile extends AppCompatActivity {
     private ImageView avatarImage, coverImage, avatarUserpost;
     private TextView fullName, school, hometown, postTextView;
     private LinearLayout userPost;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +92,7 @@ public class profile extends AppCompatActivity {
                     if (userIdintent.equals(currentUserId)) {
                         editProfileButton.setVisibility(View.VISIBLE);
                         userPost.setVisibility(View.VISIBLE);
-                        Glide.with(profile.this).load(user.getCoversrc()).into(avatarUserpost);
+                        Glide.with(profile.this).load(user.getAvatarsrc()).into(avatarUserpost);
                     } else {
                         checkFriendStatus(currentUserId, userIdintent);
                         postTextView.setText("Bài viết của " + user.getLastName());
@@ -101,6 +106,16 @@ public class profile extends AppCompatActivity {
                 // Handle possible errors.
             }
         });
+
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(profile.this, editprofile.class);
+                startActivity(intent);
+            }
+        });
+
+
 
         DatabaseReference friendsRef = FirebaseDatabase.getInstance().getReference("friends").child(userIdintent);
         friendsRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -131,7 +146,19 @@ public class profile extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 postList.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Post post = postSnapshot.getValue(Post.class);
+                    // Lấy dữ liệu từ Firebase
+                    String postId = postSnapshot.child("postId").getValue(String.class);
+                    Integer likesCount = postSnapshot.child("likesCount").getValue(Integer.class);
+                    String userName = postSnapshot.child("userName").getValue(String.class);
+                    String content = postSnapshot.child("content").getValue(String.class);
+                    String imageUrl = postSnapshot.child("image_url").getValue(String.class);
+                    String useridpost = postSnapshot.child("userId").getValue(String.class);
+                    String time = postSnapshot.child("time").getValue(String.class);
+                    HashMap<String, Object> likesMap = (HashMap<String, Object>) postSnapshot.child("likes").getValue();
+                    // Tạo đối tượng Post từ dữ liệu Firebase
+
+                    Post post = new Post(postId, likesCount, userName, content, imageUrl, likesMap,useridpost,time);
+
                     postList.add(post);
                 }
                 postAdapter.notifyDataSetChanged();
