@@ -1,0 +1,197 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".profile">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/main">
+
+        <ImageView
+            android:id="@+id/ImageViewcover"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_avatar" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageViewAvatar"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="150dp"
+
+            android:src="@drawable/img_avatar" />
+
+        <TextView
+            android:id="@+id/usernameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_below="@id/imageViewAvatar"
+            android:text="Username"
+            android:textSize="18sp"
+            android:textColor="@android:color/black" />
+
+        <!-- Other user information TextViews -->
+        <LinearLayout
+            android:id="@+id/buttonprofile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/usernameTextView"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/editProfileButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Chỉnh sửa trang cá nhân" />
+            <Button
+                android:id="@+id/addFriendButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Thêm bạn bè"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/cancelRequestButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Hủy lời mời"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/friendButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Bạn bè"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/profileSeting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="..." />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/infoprofile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/buttonprofile"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="Chi tiết"/>
+            <TextView
+                android:id="@+id/shool"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:drawableLeft="@drawable/ic_book"
+                android:text="Từng học tại"/>
+            <TextView
+                android:id="@+id/hometown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:drawableLeft="@drawable/ic_homefi"
+                android:text="Sống tại"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/lvfrend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/infoprofile"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="Bạn bè"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/friendls"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/infoprofile"
+            android:layout_marginTop="20dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/lvpost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lvfrend"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+        <TextView
+            android:id="@+id/posttextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="Bài viết"/>
+            <LinearLayout
+                android:id="@+id/userpost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/img_avatar"
+                    android:id="@+id/avatarUser"/>
+
+                <EditText
+                    android:id="@+id/editTextPost"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Bạn đang nghĩ gì?"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:paddingTop="14dp"
+                    android:background="?attr/selectableItemBackground" />
+
+            </LinearLayout>
+        <!-- RecyclerView to display user's posts -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/postsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lvfrend"
+            android:layout_marginTop="20dp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>
