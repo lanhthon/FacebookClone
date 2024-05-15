@@ -44,6 +44,7 @@ public class profile extends AppCompatActivity {
     private LinearLayout userPost;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
