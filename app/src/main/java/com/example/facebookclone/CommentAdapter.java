@@ -84,7 +84,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     if (dataSnapshot.exists()) {
                         String firstName = dataSnapshot.child("firstName").getValue(String.class);
                         String lastName = dataSnapshot.child("lastName").getValue(String.class);
-                        String avatarSrc = dataSnapshot.child("avatarSrc").getValue(String.class);
+                        String avatarSrc = dataSnapshot.child("avatarsrc").getValue(String.class);
                         textUsername.setText(String.format("%s %s", firstName, lastName));
                         if (avatarSrc != null) {
                             Picasso.get().load(avatarSrc).into(imageViewAvater);

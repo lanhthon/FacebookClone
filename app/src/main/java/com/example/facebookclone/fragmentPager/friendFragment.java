@@ -49,6 +49,7 @@ public class friendFragment extends Fragment {
         mFriendRequestsAdapter = new FriendRequestsAdapter(getActivity(), mFriendRequestsList);
         mFriendRequestsListView.setAdapter(mFriendRequestsAdapter);
 
+
         // Load friend requests
         loadFriendRequests();
 

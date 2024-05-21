@@ -24,10 +24,8 @@ public class FragmentStateAdapter extends androidx.viewpager2.adapter.FragmentSt
             case 1:
                 return new friendFragment();
             case 2:
-                return new reelsFragment();
-            case 3:
                 return new notificationFragment();
-            case 4:
+            case 3:
                 return new menuFragment();
             default:
                 return new homeFragment();
@@ -36,6 +34,6 @@ public class FragmentStateAdapter extends androidx.viewpager2.adapter.FragmentSt
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 4;
     }
 }

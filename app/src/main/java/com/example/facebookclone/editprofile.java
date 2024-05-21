@@ -1,5 +1,7 @@
 package com.example.facebookclone;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -137,6 +139,8 @@ public class editprofile extends AppCompatActivity {
             }
         });
     }
+    private boolean isAvatarUploadFinished = false;
+    private boolean isCoverUploadFinished = false;
 
     private void saveUserProfile() {
         String fullName = fullNameField.getText().toString().trim();
@@ -150,25 +154,12 @@ public class editprofile extends AppCompatActivity {
         }
 
         String[] nameParts = fullName.split(" ");
-        String firstName ;
-        String lastName ;
+        String firstName = nameParts[0];
+        String lastName = nameParts.length > 1 ? nameParts[1] : "";
 
-            firstName = nameParts[0]; // Phần đầu tiên là tên đầu
-
-            // Xác định phần cuối cùng là họ (last name)
-            int lastNameIndex = Math.min(1, nameParts.length - 1);
-            lastName = nameParts[lastNameIndex];
-
-            // Nếu có từ thứ 3, nối vào last name
-            if (nameParts.length > 2) {
-                lastName += " " + nameParts[2];
-            }
-
-            // Nếu có từ thứ 4, nối vào last name
-            if (nameParts.length > 3) {
-                lastName += " " + nameParts[3];
-            }
-
+        for (int i = 2; i < nameParts.length; i++) {
+            lastName += " " + nameParts[i];
+        }
 
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("firstName", firstName);
@@ -179,15 +170,25 @@ public class editprofile extends AppCompatActivity {
 
         mDatabase.child("users").child(currentUser.getUid()).updateChildren(userMap)
                 .addOnCompleteListener(task -> {
+                    Toast.makeText(editprofile.this, "Đang cập nhật thông tin", Toast.LENGTH_SHORT).show();
                     if (task.isSuccessful()) {
                         if (avatarUri != null) {
+                            isAvatarUploadFinished = false;
                             uploadImageToStorage("avatars/" + currentUser.getUid(), avatarUri, "avatarsrc");
+                        } else {
+                            isAvatarUploadFinished = true;
                         }
-                        if (coverUri != null) {
-                            uploadImageToStorage("covers/" + currentUser.getUid(), coverUri, "coversrc");
-                        }
-                        Toast.makeText(editprofile.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
 
+                        if (coverUri != null) {
+                            isCoverUploadFinished = false;
+                            uploadImageToStorage("covers/" + currentUser.getUid(), coverUri, "coversrc");
+                        } else {
+                            isCoverUploadFinished = true;
+                        }
+
+                        if (avatarUri == null && coverUri == null) {
+                            finish();
+                        }
                     } else {
                         Toast.makeText(editprofile.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
                     }
@@ -203,7 +204,18 @@ public class editprofile extends AppCompatActivity {
                     update.put(databaseField, uri1.toString());
                     mDatabase.child("users").child(currentUser.getUid()).updateChildren(update)
                             .addOnCompleteListener(updateTask -> {
-                                if (!updateTask.isSuccessful()) {
+                                if (updateTask.isSuccessful()) {
+                                    if (databaseField.equals("avatarsrc")) {
+                                        isAvatarUploadFinished = true;
+                                    } else if (databaseField.equals("coversrc")) {
+                                        isCoverUploadFinished = true;
+                                    }
+
+                                    if (isAvatarUploadFinished && isCoverUploadFinished) {
+                                        Toast.makeText(editprofile.this, "Cập nhật thông tin thành công", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+                                } else {
                                     Toast.makeText(editprofile.this, "Failed to update image URL", Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -213,4 +225,5 @@ public class editprofile extends AppCompatActivity {
             }
         });
     }
+
 }

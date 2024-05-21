@@ -11,6 +11,7 @@ public class Post {
     private HashMap<String, Object> likes;
     private String userId;
     private String time;
+    private int commentsCount;
 
     // No-argument constructor
     public Post() {
@@ -91,5 +92,12 @@ public class Post {
 
     public void setTime(String time) {
         this.time = time;
+    }
+    public int getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
     }
 }

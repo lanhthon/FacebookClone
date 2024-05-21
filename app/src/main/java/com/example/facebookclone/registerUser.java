@@ -19,7 +19,7 @@ public class registerUser extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    private EditText emailField, passwordField;
+    private EditText emailField, passwordField, retypePasswordField;
     private Button registerButton;
 
     @Override
@@ -35,17 +35,25 @@ public class registerUser extends AppCompatActivity {
         emailField = findViewById(R.id.editText_register_user);
         passwordField = findViewById(R.id.editText_register_password);
         registerButton = findViewById(R.id.button_conf_user);
-
+        retypePasswordField = findViewById(R.id.editText_retype_password);
         registerButton.setOnClickListener(view -> {
             String email = emailField.getText().toString().trim();
             String password = passwordField.getText().toString().trim();
+            String retypePassword = retypePasswordField.getText().toString().trim();
+
+            // Check if passwords match
+            if (!password.equals(retypePassword)) {
+                Toast.makeText(this, "Mật khẩu nhập lại không khớp.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             createAccount(email, password);
         });
     }
 
     private void createAccount(String email, String password) {
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Email and password cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Email và password không được để trống.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -77,8 +85,8 @@ public class registerUser extends AppCompatActivity {
         userMap.put("birthDate", birthDate);
         userMap.put("avatarsrc", "https://firebasestorage.googleapis.com/v0/b/fbnhom4-2d36c.appspot.com/o/users%2Fimg_avatar.png?alt=media&token=08464413-f374-4b96-ac92-6ff868808c22");
         userMap.put("coversrc", "https://firebasestorage.googleapis.com/v0/b/fbnhom4-2d36c.appspot.com/o/users%2Fcover.jpg?alt=media&token=850484b8-901d-4dd9-b629-ae76a7bbffbb");
-        userMap.put("hometown", "Kien giang");
-        userMap.put("shool", "Cao dang kien giang");
+        userMap.put("hometown", "Kiên Giang");
+        userMap.put("shool", "Cao Đẳng Kiên Giang");
 
 
         // Write a message to the database
@@ -89,7 +97,7 @@ public class registerUser extends AppCompatActivity {
                         startActivity(new Intent(this, tableLayout.class));
                         finish(); // Optional: finish current activity to prevent going back to login screen
                     } else {
-                        Toast.makeText(registerUser.this, "Failed đăng ký.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(registerUser.this, "Đăng ký thất bại!.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

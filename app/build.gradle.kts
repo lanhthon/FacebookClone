@@ -45,6 +45,7 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.12.0")
 
 
+
     // Add the dependency for the Realtime Database library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
