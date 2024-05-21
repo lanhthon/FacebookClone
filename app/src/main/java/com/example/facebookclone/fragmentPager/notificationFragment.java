@@ -89,10 +89,12 @@ public class notificationFragment extends Fragment {
                 User sender = dataSnapshot.getValue(User.class);
                 if (sender != null) {
                     notificationList.add(new Notification(
-                            sender.getFirstName() + " " + sender.getLastName()+" Đã giửi cho bạn lời mời kết bạn",
+                            sender.getFirstName() + " " + sender.getLastName() + " Đã giửi cho bạn lời mời kết bạn",
                             "Ngay bây giờ",
                             sender.getFirstName() + " " + sender.getLastName(),
-                            sender.getAvatarsrc()
+                            sender.getAvatarsrc(),
+                            senderId,
+                            true // This is a friend request
                     ));
                     adapter.notifyDataSetChanged();
                 }
@@ -115,7 +117,7 @@ public class notificationFragment extends Fragment {
                     String content = postSnapshot.child("content").getValue(String.class);
                     String time = postSnapshot.child("time").getValue(String.class);
 
-                    fetchPostUserDetails(postUserId, content, time);
+                    fetchPostUserDetails(postUserId, content, time,postId);
                 }
             }
 
@@ -126,17 +128,19 @@ public class notificationFragment extends Fragment {
         });
     }
 
-    private void fetchPostUserDetails(String postUserId, String content, String time) {
+    private void fetchPostUserDetails(String postUserId, String content, String time,String postId) {
         databaseReference.child("users").child(postUserId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 if (user != null) {
                     notificationList.add(new Notification(
-                             user.getFirstName() + " " + user.getLastName() + " Đã đăng bài viết: " + content,
+                            user.getFirstName() + " " + user.getLastName() + " Đã đăng bài viết: " + content,
                             time,
                             user.getFirstName() + " " + user.getLastName(),
-                            user.getAvatarsrc()
+                            user.getAvatarsrc(),
+                            postId,
+                            false // This is a new post
                     ));
                     adapter.notifyDataSetChanged();
                 }

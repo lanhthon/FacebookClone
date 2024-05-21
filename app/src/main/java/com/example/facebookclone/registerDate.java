@@ -4,19 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.TextView;
-
+import android.widget.DatePicker;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 public class registerDate extends AppCompatActivity {
+
+    private String ngaySinh; // Declare ngaySinh variable to store the selected date
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,20 +29,21 @@ public class registerDate extends AppCompatActivity {
         });
 
         Button nextButton = findViewById(R.id.button_conf_date);
+        DatePicker datePicker = findViewById(R.id.DatePickerView_date); // Get reference to DatePicker
+
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String ho = getIntent().getStringExtra("HO");
                 String ten = getIntent().getStringExtra("TEN");
 
-                // Lấy ngày từ CalendarView
-                CalendarView calendarView = findViewById(R.id.calendarView_date);
-                long selectedDateInMillis = calendarView.getDate();
-                Date selectedDate = new Date(selectedDateInMillis);
+                // Extract selected date from DatePicker
+                int year = datePicker.getYear();
+                int month = datePicker.getMonth() + 1; // Month is zero-based
+                int day = datePicker.getDayOfMonth();
 
-                // Chuyển đổi ngày thành định dạng mong muốn
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                String ngaySinh = sdf.format(selectedDate);
+                // Format the date
+                ngaySinh = String.format("%02d/%02d/%d", day, month, year);
 
                 Intent intent = new Intent(registerDate.this, registerUser.class);
                 intent.putExtra("HO", ho);
@@ -52,6 +52,5 @@ public class registerDate extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 }

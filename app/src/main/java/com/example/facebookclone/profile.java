@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,6 +45,29 @@ public class profile extends AppCompatActivity {
     private LinearLayout userPost;
 
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadUserProfile();
+    }
+    private void loadUserProfile() {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userIdintent);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                if (user != null) {
+                    displayUserInfo(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Xử lý lỗi nếu có
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,8 +200,10 @@ public class profile extends AppCompatActivity {
         fullName.setText(user.getFirstName() + " " + user.getLastName());
         school.setText(user.getShool());
         hometown.setText(user.getHometown());
-        Glide.with(this).load(user.getAvatarsrc()).into(avatarImage);
-        Glide.with(this).load(user.getCoversrc()).into(coverImage);
+        Glide.with(this).load(user.getAvatarsrc()).diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true).into(avatarImage);
+        Glide.with(this).load(user.getCoversrc()).diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true).into(coverImage);
     }
 
     private void checkFriendStatus(String currentUserId, String userIdintent) {

@@ -57,12 +57,9 @@ public class tableLayout extends AppCompatActivity {
                         tab.setIcon(R.drawable.outline_escalator_warning_24);
                         break;
                     case 2:
-                        tab.setIcon(R.drawable.baseline_ondemand_video_24);
-                        break;
-                    case 3:
                         tab.setIcon(R.drawable.baseline_notifications_none_24);
                         break;
-                    case 4:
+                    case 3:
                         tab.setIcon(R.drawable.baseline_density_medium_24);
                         break;
                 }
@@ -89,7 +86,7 @@ public class tableLayout extends AppCompatActivity {
                         break;
                     }
                 }
-                TabLayout.Tab notificationTab = tabLayout.getTabAt(3); // Assuming notifications are at position 3
+                TabLayout.Tab notificationTab = tabLayout.getTabAt(2); // Assuming notifications are at position 3
                 if (notificationTab != null) {
                     if (hasNotifications) {
                         BadgeDrawable badgeDrawable = notificationTab.getOrCreateBadge();

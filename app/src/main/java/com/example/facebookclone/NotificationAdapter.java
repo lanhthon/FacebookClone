@@ -1,5 +1,6 @@
 package com.example.facebookclone;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     private List<Notification> notificationList;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView messageTextView;
         public TextView timeTextView;
         public ImageView iconImageView;
@@ -26,8 +27,25 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             messageTextView = view.findViewById(R.id.text_notification_message);
             timeTextView = view.findViewById(R.id.text_notification_time);
             iconImageView = view.findViewById(R.id.image_notification_icon);
+
+            view.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    Notification notification = notificationList.get(position);
+                    Intent intent;
+                    if (notification.isFriendRequest()) {
+                        intent = new Intent(itemView.getContext(), profile.class);
+                        intent.putExtra("userId", notification.getId());
+                    } else {
+                        intent = new Intent(itemView.getContext(), PostDetailActivity.class);
+                        intent.putExtra("postId", notification.getId());
+                    }
+                    view.getContext().startActivity(intent);
+                }
+            });
         }
-    }
+        }
+
 
     public NotificationAdapter(List<Notification> notificationList) {
         this.notificationList = notificationList;
@@ -49,7 +67,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             Picasso.get().load(notification.getSenderAvatar()).into(holder.iconImageView);
         }
 
-        holder.iconImageView.setImageResource(R.drawable.ic_feed);
+        holder.iconImageView.setImageResource(R.drawable.img_avatar);
     }
 
     @Override

@@ -18,18 +18,14 @@
         android:textColor="@color/black"
         android:textSize="20dp" />
 
-    <EditText
-        android:id="@+id/editText_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Ngày sinh" />
 
-    <CalendarView
-        android:id="@+id/calendarView_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
+    <DatePicker
+        android:id="@+id/DatePickerView_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.FacebookClone"
+        android:layout_gravity="center"/>
 
     <Button
         android:id="@+id/button_conf_date"

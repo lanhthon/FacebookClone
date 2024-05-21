@@ -143,6 +143,7 @@ public class userPost extends AppCompatActivity {
         storageRef.putFile(uri)
                 .addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
                     storePostInfo(downloadUri.toString(), userId);
+
                     Toast.makeText(userPost.this, "Image uploaded successfully.", Toast.LENGTH_SHORT).show();
                 }))
                 .addOnFailureListener(e -> {
@@ -175,6 +176,7 @@ public class userPost extends AppCompatActivity {
         postInfo.put("likes", initialLikes);
 
         postRef.setValue(postInfo);
+        finish();
     }
 
 }
